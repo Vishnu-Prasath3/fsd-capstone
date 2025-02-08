@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { FiUser, FiMail, FiLock } from "react-icons/fi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+const baseurl = import.meta.env.VITE_APP_API_URL;
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -25,7 +26,7 @@ function Signup() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("/api/users/register", {
+      const res = await fetch(`${baseurl}/api/users/register`, {
         method: "post",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ username, email, password, confirmPassword }),
