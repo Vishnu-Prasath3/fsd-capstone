@@ -8,8 +8,21 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.use(
+  cors(
+    app.use(
+      cors({
+        origin: [
+          "http://localhost:5173",
+          "https://fsd-capstone-frontend.vercel.app",
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true, // Allow cookies & auth headers
+      })
+    )
+  )
+);
 app.use(express.json());
-app.use(cors());
 app.use(router);
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/auctions", require("./routes/auctionRoutes"));
