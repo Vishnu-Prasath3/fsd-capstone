@@ -24,7 +24,7 @@ function Login() {
 		setLoading(true);
 		try {
 			const res = await axios.post(
-				'/api/users/login',
+				'https://fsd-capstone.onrender.com/api/users/login',
 				{ email, password },
 				{ withCredentials: true }
 			);

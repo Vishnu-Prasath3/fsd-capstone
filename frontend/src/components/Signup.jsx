@@ -24,7 +24,7 @@ function Signup() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('/api/users/register', {
+      const res = await fetch('https://fsd-capstone.onrender.com/api/users/register', {
         method: "post",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ username, email, password, confirmPassword }),

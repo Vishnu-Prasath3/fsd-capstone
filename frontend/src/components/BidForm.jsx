@@ -10,7 +10,7 @@ const BidForm = () => {
 
 	useEffect(() => {
 		const fetchAuctionItem = async () => {
-			const res = await axios.get(`/api/auctions/${id}`);
+			const res = await axios.get(`https://fsd-capstone.onrender.com/api/auctions/${id}`);
 			setAuctionItem(res.data);
 			setBidAmount(res.data.startingBid || "");
 		};

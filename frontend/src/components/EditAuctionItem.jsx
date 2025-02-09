@@ -30,7 +30,7 @@ const EditAuctionItem = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		await axios.put(`/api/auctions/${id}`, auctionItem);
+		await axios.put(`https://fsd-capstone.onrender.com/api/auctions/${id}`, auctionItem);
 		navigate(`/auction/${id}`);
 	};
 
