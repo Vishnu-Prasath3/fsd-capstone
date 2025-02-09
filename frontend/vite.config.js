@@ -8,6 +8,7 @@ export default defineConfig({
       target: "https://fsd-capstone.onrender.com",
       changeOrigin: true,
       secure:false,
+      rewrite: (path) => path.replace(/^\/api/, ""), // Remove "/api" from the path
     },
   },
 }
