@@ -14,7 +14,17 @@ const EditAuctionItem = () => {
 
 	useEffect(() => {
 		const fetchAuctionItem = async () => {
-			const res = await axios.get(`/api/auctions/${id}`);
+			const res = await fetch(`https://fsd-capstone.onrender.com/api/auctions/${id}`
+			,{method:"GET"
+			,headers: {
+				"Content-Type": "application/json",
+			}}).then((response) => {
+				if (!response.ok) {
+				  throw new Error(`HTTP error! Status: ${response.status}`);
+				}
+				return response.json();
+			  }).then((data) => console.log("Success:", data))
+			  .catch((error) => console.error("Error:", error));
 			setAuctionItem(res.data);
 		};
 		fetchAuctionItem();
@@ -30,7 +40,22 @@ const EditAuctionItem = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		await axios.put(`https://fsd-capstone.onrender.com/api/auctions/${id}`, auctionItem);
+		await fetch(`https://fsd-capstone.onrender.com/api/auctions/${id}`, {
+			method: "PUT",
+			headers: {
+			  "Content-Type": "application/json",
+			},
+			body: JSON.stringify(auctionItem),
+		  })
+			.then((response) => {
+			  if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			  }
+			  return response.json();
+			})
+			.then((data) => console.log("Success:", data))
+			.catch((error) => console.error("Error:", error));
+		  
 		navigate(`/auction/${id}`);
 	};
 

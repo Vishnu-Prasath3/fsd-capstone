@@ -24,13 +24,12 @@ function Profile() {
 				?.split("=")[1];
 			if (token) {
 				try {
-					const res = await axios.post(
-						"https://fsd-capstone.onrender.com/api/users/profile",
-						{},
+					const res = await fetch("https://fsd-capstone.onrender.com/api/users/profile",
 						{
-							headers: { Authorization: `Bearer ${token}` },
+							method:post,
+							headers:{Authorization: `Bearer ${token}`}
 						}
-					);
+					) 
 					setUser(res.data);
 				} catch (error) {
 					console.error(error);
@@ -45,13 +44,15 @@ function Profile() {
 				?.split("=")[1];
 			if (token) {
 				try {
-					const res = await axios.post(
-						"/api/auctions/user",
-						{},
+					const res = await fetch("https://fsd-capstone.onrender.com/api/auctions/user",
 						{
-							headers: { Authorization: `Bearer ${token}` },
+							method:post,
+							headers:{Authorization: `Bearer ${token}`
+
+							}
 						}
-					);
+					)
+					
 					setAuctions(res.data.auctionItems);
 					setTotalPagesAuctions(
 						Math.ceil(res.data.auctionItems.length / ITEMS_PER_PAGE)
@@ -69,13 +70,11 @@ function Profile() {
 				?.split("=")[1];
 			if (token) {
 				try {
-					const res = await axios.post(
-						"/api/bids/user",
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
+					const res = await fetch("https://fsd-capstone.onrender.com/api/bids/user",{
+						method:post,
+						headers:{Authorization: `Bearer ${token}`}
+					  })					
+		
 					setBids(res.data.bids);
 					setTotalPagesBids(
 						Math.ceil(res.data.bids.length / ITEMS_PER_PAGE)
@@ -93,13 +92,11 @@ function Profile() {
 				?.split("=")[1];
 			if (token) {
 				try {
-					const res = await axios.post(
-						"/api/auctions/won",
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
+					const res = await fetch("https://fsd-capstone.onrender.com/api/auctions/won",{
+						method:post,
+						headers:{Authorization: `Bearer ${token}`}
+					  }
+					) 
 					setWonAuctions(res.data.wonAuctions);
 					setTotalPagesWon(
 						Math.ceil(res.data.wonAuctions.length / ITEMS_PER_PAGE)

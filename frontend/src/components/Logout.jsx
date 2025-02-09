@@ -10,7 +10,7 @@ function Logout() {
   useEffect(() => {
     const logout = async () => {
       try {
-        await axios.post('https://fsd-capstone.onrender.com/api/users/logout', {});
+        await fetch('https://fsd-capstone.onrender.com/api/users/logout',{method:post} );
         document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
         signout();
         navigate("/login");
