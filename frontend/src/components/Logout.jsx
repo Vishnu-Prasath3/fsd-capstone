@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 function Logout() {
   const navigate = useNavigate();
   const { logout: signout } = useAuth();
@@ -10,7 +10,7 @@ function Logout() {
   useEffect(() => {
     const logout = async () => {
       try {
-        await axios.post(`${baseURL}/api/users/logout`, {});
+        await axios.post('/api/users/logout', {});
         document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
         signout();
         navigate("/login");

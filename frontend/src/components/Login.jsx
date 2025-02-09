@@ -4,7 +4,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { FiMail, FiLock } from "react-icons/fi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 function Login() {
 	const [email, setEmail] = useState("");
@@ -25,7 +24,7 @@ function Login() {
 		setLoading(true);
 		try {
 			const res = await axios.post(
-				`${baseURL}/api/users/login`,
+				'/api/users/login',
 				{ email, password },
 				{ withCredentials: true }
 			);

@@ -4,7 +4,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { FiUser, FiMail, FiLock } from "react-icons/fi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { baseURL } from "./baseURL";
 function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -25,12 +24,12 @@ function Signup() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${baseURL}/api/users/register`, {
+      const res = await fetch('/api/users/register', {
         method: "post",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ username, email, password, confirmPassword }),
       });
-      console.log(baseURL);
+  
 
       if (res.status === 201) {
         navigate("/login");
