@@ -4,11 +4,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": {
-      target: "https://fsd-capstone.onrender.com",
+      '/api': {
+      target: 'https://fsd-capstone.onrender.com',
       changeOrigin: true,
       secure:false,
-      rewrite: (path) => path.replace(/^\/api/, ""), // Remove "/api" from the path
+      rewrite: (path) => path.replace( '/^\/api/', ""), // Remove "/api" from the path
     },
   },
 }
