@@ -25,7 +25,9 @@ function AuctionItem() {
 	useEffect(() => {
 		const fetchAuctionItem = async () => {
 			try {
-				const res = await axios.get(`/api/auctions/${id}`);
+				const res = await fetch(`/api/auctions/${id}`);
+				
+				get(`/api/auctions/${id}`);
 				setAuctionItem(res.data);
 			} catch (error) {
 				console.error("Error fetching auction item:", error);
