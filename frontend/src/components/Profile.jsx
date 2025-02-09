@@ -24,73 +24,29 @@ function Profile() {
 
 		if (!token) return;
 
-		const fetchUserData = async () => {
+		const fetchData = async (url, setter, totalSetter, key) => {
 			try {
-				const { data } = await axios.get(
-					"https://fsd-capstone.onrender.com/api/users/profile",
-					{
-						headers: { Authorization: `Bearer ${token}` },
-					}
-				);
-				setUser(data);
+				const response = await axios.get(url, {
+					headers: { Authorization: `Bearer ${token}` },
+				});
+				const data = response?.data;
+
+				if (!data || !data[key]) {
+					console.error(`Invalid response from ${url}:`, response);
+					return;
+				}
+
+				setter(data[key]);
+				totalSetter(Math.ceil(data[key].length / ITEMS_PER_PAGE));
 			} catch (error) {
-				console.error("Error fetching user:", error);
+				console.error(`Error fetching data from ${url}:`, error);
 			}
 		};
 
-		const fetchAuctions = async () => {
-			try {
-				const { data } = await axios.get(
-					"https://fsd-capstone.onrender.com/api/auctions/user",
-					{
-						headers: { Authorization: `Bearer ${token}` },
-					}
-				);
-				setAuctions(data.auctionItems);
-				setTotalPagesAuctions(
-					Math.ceil(data.auctionItems.length / ITEMS_PER_PAGE)
-				);
-			} catch (error) {
-				console.error("Error fetching auctions:", error);
-			}
-		};
-
-		const fetchBids = async () => {
-			try {
-				const { data } = await axios.get(
-					"https://fsd-capstone.onrender.com/api/bids/user",
-					{
-						headers: { Authorization: `Bearer ${token}` },
-					}
-				);
-				setBids(data.bids);
-				setTotalPagesBids(Math.ceil(data.bids.length / ITEMS_PER_PAGE));
-			} catch (error) {
-				console.error("Error fetching bids:", error);
-			}
-		};
-
-		const fetchWonAuctions = async () => {
-			try {
-				const { data } = await axios.get(
-					"https://fsd-capstone.onrender.com/api/auctions/won",
-					{
-						headers: { Authorization: `Bearer ${token}` },
-					}
-				);
-				setWonAuctions(data.wonAuctions);
-				setTotalPagesWon(
-					Math.ceil(data.wonAuctions.length / ITEMS_PER_PAGE)
-				);
-			} catch (error) {
-				console.error("Error fetching won auctions:", error);
-			}
-		};
-
-		fetchUserData();
-		fetchAuctions();
-		fetchBids();
-		fetchWonAuctions();
+		fetchData("https://fsd-capstone.onrender.com/api/users/profile", setUser, () => {}, "");
+		fetchData("https://fsd-capstone.onrender.com/api/auctions/user", setAuctions, setTotalPagesAuctions, "auctionItems");
+		fetchData("https://fsd-capstone.onrender.com/api/bids/user", setBids, setTotalPagesBids, "bids");
+		fetchData("https://fsd-capstone.onrender.com/api/auctions/won", setWonAuctions, setTotalPagesWon, "wonAuctions");
 	}, []);
 
 	const handlePageChange = (page, type) => {
@@ -124,39 +80,31 @@ function Profile() {
 					<h2 className="mb-6 text-3xl font-extrabold text-white">Profile</h2>
 					<div className="p-4 mb-6 bg-gray-700 rounded-lg">
 						<p>
-							<span className="font-semibold text-purple-400">Username:</span>{" "}
-							{user.username}
+							<span className="font-semibold text-purple-400">Username:</span> {user.username}
 						</p>
 						<p>
-							<span className="font-semibold text-purple-400">Email:</span>{" "}
-							{user.email}
+							<span className="font-semibold text-purple-400">Email:</span> {user.email}
 						</p>
 					</div>
 
-					{/* Auctions Section */}
 					<h2 className="text-2xl font-bold text-green-400">Your Auctions</h2>
 					{paginate(auctions, currentPageAuctions).map((auction) => (
 						<div key={auction._id} className="p-4 my-2 bg-gray-700 rounded">
 							<h3 className="text-xl font-semibold">{auction.title}</h3>
 							<p>{auction.description}</p>
-							<Link to={`/auction/${auction._id}`} className="text-blue-400">
-								View Auction
-							</Link>
+							<Link to={`/auction/${auction._id}`} className="text-blue-400">View Auction</Link>
 						</div>
 					))}
 					<button onClick={() => handlePageChange(currentPageAuctions - 1, "auctions")}>Prev</button>
 					<span>{currentPageAuctions}</span>
 					<button onClick={() => handlePageChange(currentPageAuctions + 1, "auctions")}>Next</button>
 
-					{/* Bids Section */}
 					<h2 className="mt-8 text-2xl font-bold text-blue-400">Your Bids</h2>
 					{paginate(bids, currentPageBids).map((bid) => (
 						<div key={bid._id} className="p-4 my-2 bg-gray-700 rounded">
-							<h3 className="text-xl font-semibold">{bid.auctionItem.title}</h3>
+							<h3 className="text-xl font-semibold">{bid.auctionItem?.title || "N/A"}</h3>
 							<p>Bid Amount: ${bid.bidAmount}</p>
-							<Link to={`/auction/${bid.auctionItem._id}`} className="text-blue-400">
-								View Auction
-							</Link>
+							<Link to={`/auction/${bid.auctionItem?._id}`} className="text-blue-400">View Auction</Link>
 						</div>
 					))}
 					<button onClick={() => handlePageChange(currentPageBids - 1, "bids")}>Prev</button>
