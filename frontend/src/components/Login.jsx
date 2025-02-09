@@ -36,12 +36,12 @@ function Login() {
       );
       const data = await res.json();
       if (!res.ok) {
-        throw new error(data.message || "failed occurred");
+        throw new Error(data.message || "failed occurred");
       }
       login();
-      navigate("/profile");
+      setTimeout(() => navigate("/profile"),100);
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
+      setError(err.message || "An error occurred");
       console.error(err);
     } finally {
       setLoading(false);
