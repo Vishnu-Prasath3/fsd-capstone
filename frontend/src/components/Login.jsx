@@ -30,7 +30,7 @@ function Login() {
 					headers:{
 						"content-type":'application/json'}
 					,
-				body:JSON.stringify(email, password)
+				body:JSON.stringify({email, password})
 				}
 			);
 			if (res.status === 200) {
