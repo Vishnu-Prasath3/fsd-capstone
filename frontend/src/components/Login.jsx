@@ -23,10 +23,15 @@ function Login() {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const res = await axios.post(
-				'https://fsd-capstone.onrender.com/api/users/login',
-				{ email, password },
-				{ withCredentials: true }
+			const res = await fetch
+			(    'https://fsd-capstone.onrender.com/api/users/login',
+				{
+					method:'post',
+					headers:{
+						"content-type":'application/json'}
+					,
+				body:JSON.stringify(email, password)
+				}
 			);
 			if (res.status === 200) {
 				login();
