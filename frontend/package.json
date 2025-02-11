@@ -2,7 +2,7 @@
 	"name": "frontend",
 	"private": true,
 	"version": "0.0.0",
-	"proxy": "http://localhost:5000",
+	"proxy": "https://fsd-capstone.onrender.com",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -11,9 +11,7 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"frontend": "file:",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1"
+		"frontend": "file:"
 	},
 	"devDependencies": {
 		"@types/react": "^18.3.3",
@@ -27,7 +25,9 @@
 		"eslint-plugin-react-refresh": "^0.4.7",
 		"postcss": "^8.4.40",
 		"prop-types": "^15.8.1",
+		"react": "^18.3.1",
 		"react-bootstrap": "^2.10.4",
+		"react-dom": "^18.3.1",
 		"react-icons": "^5.2.1",
 		"react-router-dom": "^6.26.0",
 		"tailwindcss": "^3.4.7",

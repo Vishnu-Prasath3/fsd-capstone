@@ -17,23 +17,14 @@ const CreateAuctionItem = () => {
 			.find((row) => row.startsWith("jwt="))
 			?.split("=")[1];
 		if (token) {
-			try {	await fetch("https://fsd-capstone.onrender.com/api/auctions", {
-					method: "POST",
-					headers: {
-					  "Content-Type": "application/json",
-					  "Authorization": `Bearer ${token}`
-					},
-					body: JSON.stringify({ title, description, startingBid, endDate }),
-				  })
-					.then(response => {
-					  if (!response.ok) {
-						throw new Error(`HTTP error! Status: ${response.status}`);
-					  }
-					  return response.json();
-					})
-					.then(data => console.log("Success:", data))
-					.catch(error => console.error("Error:", error));
-				  
+			try {
+				await axios.post(
+					"/api/auctions",
+					{ title, description, startingBid, endDate },
+					{
+						headers: { Authorization: `Bearer ${token}` },
+					}
+				);
 				navigate("/profile");
 			} catch (err) {
 				setError("Failed to create auction. Please try again.");

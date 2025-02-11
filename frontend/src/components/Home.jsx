@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import react from "react";
+
 const Home = () => {
 	const Logo = () => (
 		<div className="flex items-center text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">

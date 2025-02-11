@@ -13,21 +13,7 @@ function AuctionList() {
 
 	useEffect(() => {
 		const fetchAuctionItems = async () => {
-			const res = await fetch("https://fsd-capstone.onrender.com/api/auctions", {
-				method: "GET",
-				headers: {
-				  "Content-Type": "application/json",
-				},
-			  })
-				.then(response => {
-				  if (!response.ok) {
-					throw new Error(`HTTP error! Status: ${response.status}`);
-				  }
-				  return response.json();
-				})
-				.then(data => console.log("Success:", data))
-				.catch(error => console.error("Error:", error));
-			  
+			const res = await axios.get("/api/auctions");
 			setAuctionItems(res.data);
 			setSearchResults(res.data);
 			setTotalPages(Math.ceil(res.data.length / ITEMS_PER_PAGE));
