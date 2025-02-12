@@ -16,108 +16,143 @@ function Profile() {
 	const [totalPagesBids, setTotalPagesBids] = useState(1);
 	const [totalPagesWon, setTotalPagesWon] = useState(1);
 
-	useEffect(() => {
-		const fetchUser = async () => {
-			const token = document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("jwt="))
-				?.split("=")[1];
-			if (token) {
-				try {
-					const res = await axios.post(
-						`${API_BASE_URL}/api/users/profile`,
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
-					setUser(res.data);
-				} catch (error) {
-					console.error(error);
-				}
-			}
-		};
+	// useEffect(() => {
+	// 	const fetchUser = async () => {
+	// 		const token = document.cookie
+	// 			.split("; ")
+	// 			.find((row) => row.startsWith("jwt="))
+	// 			?.split("=")[1];
+	// 		if (token) {
+	// 			try {
+	// 				const res = await axios.post(
+	// 					`${API_BASE_URL}/api/users/profile`,
+	// 					{},
+	// 					{
+	// 						headers: { Authorization: `Bearer ${token}` },
+	// 					}
+	// 				);
+	// 				setUser(res.data);
+	// 			} catch (error) {
+	// 				console.error(error);
+	// 			}
+	// 		}
+	// 	};
 
-		const fetchAuctions = async () => {
-			const token = document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("jwt="))
-				?.split("=")[1];
-			if (token) {
-				try {
-					const res = await axios.post(
-						`${API_BASE_URL}/api/auctions/user`,
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
-					setAuctions(res.data.auctionItems);
-					setTotalPagesAuctions(
-						Math.ceil(res.data.auctionItems.length / ITEMS_PER_PAGE)
-					);
+	// 	const fetchAuctions = async () => {
+	// 		const token = document.cookie
+	// 			.split("; ")
+	// 			.find((row) => row.startsWith("jwt="))
+	// 			?.split("=")[1];
+	// 		if (token) {
+	// 			try {
+	// 				const res = await axios.post(
+	// 					`${API_BASE_URL}/api/auctions/user`,
+	// 					{},
+	// 					{
+	// 						headers: { Authorization: `Bearer ${token}` },
+	// 					}
+	// 				);
+	// 				setAuctions(res.data.auctionItems);
+	// 				setTotalPagesAuctions(
+	// 					Math.ceil(res.data.auctionItems.length / ITEMS_PER_PAGE)
+	// 				);
 					
-				} catch (error) {
-					console.error(error);
-				}
-			}
+	// 			} catch (error) {
+	// 				console.error(error);
+	// 			}
+	// 		}
+	// 	};
+
+	// 	const fetchBids = async () => {
+	// 		const token = document.cookie
+	// 			.split("; ")
+	// 			.find((row) => row.startsWith("jwt="))
+	// 			?.split("=")[1];
+	// 		if (token) {
+	// 			try {
+	// 				const res = await axios.post(
+	// 					`${API_BASE_URL}/api/bids/user`,
+	// 					{},
+	// 					{
+	// 						headers: { Authorization: `Bearer ${token}` },
+	// 					}
+	// 				);
+	// 				setBids(res.data.bids);
+	// 				setTotalPagesBids(
+	// 					Math.ceil(res.data.bids.length / ITEMS_PER_PAGE)
+	// 				);
+	// 			} catch (error) {
+	// 				console.error(error);
+	// 			}
+	// 		}
+	// 	};
+
+	// 	const fetchWonAuctions = async () => {
+	// 		const token = document.cookie
+	// 			.split("; ")
+	// 			.find((row) => row.startsWith("jwt="))
+	// 			?.split("=")[1];
+	// 		if (token) {
+	// 			try {
+	// 				const res = await axios.post(
+	// 					`${API_BASE_URL}/api/auctions/won`,
+	// 					{},
+	// 					{
+	// 						headers: { Authorization: `Bearer ${token}` },
+	// 					}
+	// 				);
+	// 				setWonAuctions(res.data.wonAuctions);
+	// 				setTotalPagesWon(
+	// 					Math.ceil(res.data.wonAuctions.length / ITEMS_PER_PAGE)
+	// 				);
+	// 			} catch (error) {
+	// 				console.error(error);
+	// 			}
+	// 		}
+	// 	};
+
+	// 	fetchUser();
+	// 	fetchAuctions();
+	// 	fetchBids();
+	// 	fetchWonAuctions();
+	// 	console.log("fetching data");		
+	// }, []);
+	useEffect(() => {
+		const fetchData = async () => {
+		  const token = document.cookie
+			.split("; ")
+			.find((row) => row.startsWith("jwt="))
+			?.split("=")[1];
+	  
+		  if (!token) return;
+	  
+		  try {
+			const [userRes, auctionsRes, bidsRes, wonAuctionsRes] = await Promise.all([
+			  axios.post(`${API_BASE_URL}/api/users/profile`, {}, { headers: { Authorization: `Bearer ${token}` } }),
+			  axios.post(`${API_BASE_URL}/api/auctions/user`, {}, { headers: { Authorization: `Bearer ${token}` } }),
+			  axios.post(`${API_BASE_URL}/api/bids/user`, {}, { headers: { Authorization: `Bearer ${token}` } }),
+			  axios.post(`${API_BASE_URL}/api/auctions/won`, {}, { headers: { Authorization: `Bearer ${token}` } })
+			]);
+	  
+			setUser(userRes.data);
+			setAuctions(auctionsRes.data.auctionItems);
+			setBids(bidsRes.data.bids);
+			setWonAuctions(wonAuctionsRes.data.wonAuctions);
+	  
+			setTotalPagesAuctions(Math.ceil(auctionsRes.data.auctionItems.length / ITEMS_PER_PAGE));
+			setTotalPagesBids(Math.ceil(bidsRes.data.bids.length / ITEMS_PER_PAGE));
+			setTotalPagesWon(Math.ceil(wonAuctionsRes.data.wonAuctions.length / ITEMS_PER_PAGE));
+	  
+		  } catch (error) {
+			console.error("Error fetching profile data:", error);
+		  }
 		};
-
-		const fetchBids = async () => {
-			const token = document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("jwt="))
-				?.split("=")[1];
-			if (token) {
-				try {
-					const res = await axios.post(
-						`${API_BASE_URL}/api/bids/user`,
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
-					setBids(res.data.bids);
-					setTotalPagesBids(
-						Math.ceil(res.data.bids.length / ITEMS_PER_PAGE)
-					);
-				} catch (error) {
-					console.error(error);
-				}
-			}
-		};
-
-		const fetchWonAuctions = async () => {
-			const token = document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("jwt="))
-				?.split("=")[1];
-			if (token) {
-				try {
-					const res = await axios.post(
-						`${API_BASE_URL}/api/auctions/won`,
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
-					setWonAuctions(res.data.wonAuctions);
-					setTotalPagesWon(
-						Math.ceil(res.data.wonAuctions.length / ITEMS_PER_PAGE)
-					);
-				} catch (error) {
-					console.error(error);
-				}
-			}
-		};
-
-		fetchUser();
-		fetchAuctions();
-		fetchBids();
-		fetchWonAuctions();
-		console.log("fetching data");		
-	}, []);
-
+	  
+		fetchData();
+		console.log("Fetching data...");
+	  
+	  }, []);
+	  
 	const handlePageChange = (page, type) => {
 		if (page > 0) {
 			if (type === "auctions") {
