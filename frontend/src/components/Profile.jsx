@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const ITEMS_PER_PAGE = 3;
 
 function Profile() {
@@ -25,7 +25,7 @@ function Profile() {
 			if (token) {
 				try {
 					const res = await axios.post(
-						"/api/users/profile",
+						`${API_BASE_URL}/api/users/profile`,
 						{},
 						{
 							headers: { Authorization: `Bearer ${token}` },
@@ -46,7 +46,7 @@ function Profile() {
 			if (token) {
 				try {
 					const res = await axios.post(
-						"/api/auctions/user",
+						`${API_BASE_URL}/api/auctions/user`,
 						{},
 						{
 							headers: { Authorization: `Bearer ${token}` },
@@ -70,7 +70,7 @@ function Profile() {
 			if (token) {
 				try {
 					const res = await axios.post(
-						"/api/bids/user",
+						`${API_BASE_URL}/api/bids/user`,
 						{},
 						{
 							headers: { Authorization: `Bearer ${token}` },
@@ -94,7 +94,7 @@ function Profile() {
 			if (token) {
 				try {
 					const res = await axios.post(
-						"/api/auctions/won",
+						`${API_BASE_URL}/api/auctions/won`,
 						{},
 						{
 							headers: { Authorization: `Bearer ${token}` },
