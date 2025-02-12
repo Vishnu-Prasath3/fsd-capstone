@@ -43,8 +43,6 @@ function Login() {
 		} finally {
 			setLoading(false);
 		}
-	
-	
 	};
 
 	return (
