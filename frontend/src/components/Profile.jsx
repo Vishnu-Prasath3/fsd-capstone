@@ -56,6 +56,7 @@ function Profile() {
 					setTotalPagesAuctions(
 						Math.ceil(res.data.auctionItems.length / ITEMS_PER_PAGE)
 					);
+					
 				} catch (error) {
 					console.error(error);
 				}
@@ -114,6 +115,7 @@ function Profile() {
 		fetchAuctions();
 		fetchBids();
 		fetchWonAuctions();
+		console.log("fetching data");		
 	}, []);
 
 	const handlePageChange = (page, type) => {
@@ -130,10 +132,7 @@ function Profile() {
 
 	const startIndexAuctions = (currentPageAuctions - 1) * ITEMS_PER_PAGE;
 	const endIndexAuctions = startIndexAuctions + ITEMS_PER_PAGE;
-	const paginatedAuctions = auctions.slice(
-		startIndexAuctions,
-		endIndexAuctions
-	);
+	const paginatedAuctions = auctions.slice(startIndexAuctions,endIndexAuctions);
 
 	const startIndexBids = (currentPageBids - 1) * ITEMS_PER_PAGE;
 	const endIndexBids = startIndexBids + ITEMS_PER_PAGE;

@@ -32,10 +32,11 @@ function Login() {
 			if (res.status === 200) {
 				login();
 				navigate("/profile");
+				console.log("successfull login");
 			}
 		} catch (err) {
 			setError(err.response?.data?.message || "An error occurred");
-			console.error(err);
+			console.error("login failed",err);
 		} finally {
 			setLoading(false);
 		}
