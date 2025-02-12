@@ -19,27 +19,32 @@ function Login() {
 			navigate("/profile");
 		}
 	}, [isLoggedIn, navigate]);
-
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		setLoading(true);
+		setError("");  // ✅ Clear previous errors
+	
 		try {
 			const res = await axios.post(
 				`${API_BASE_URL}/api/users/login`,
 				{ email, password },
 				{ withCredentials: true }
 			);
+	
 			if (res.status === 200) {
-				login();
-				navigate("/profile");
-				console.log("successfull login");
+				login(); // ✅ Only update auth state, useEffect will handle navigation
+				console.log("successful login");
 			}
-		} catch (err) {
+			
+			}
+		 catch (err) {
 			setError(err.response?.data?.message || "An error occurred");
-			console.error("login failed",err);
+			console.error("login failed", err);
 		} finally {
 			setLoading(false);
 		}
+	
+	
 	};
 
 	return (
